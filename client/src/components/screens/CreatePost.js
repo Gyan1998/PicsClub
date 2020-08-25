@@ -60,6 +60,7 @@ const CreatePost = () => {
   };
 
   return (
+    <div style={{margin:"20px"}}>
     <div
       className="card input-field"
       style={{
@@ -96,6 +97,7 @@ const CreatePost = () => {
       >
         Submit Post
       </button>
+    </div>
     </div>
   );
 };

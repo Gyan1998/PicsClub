@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Grand+Hotel&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Grand+Hotel&display=swap');
 
 a {
   color: black !important;
@@ -6,7 +6,7 @@ a {
 
 .brand-logo,
 h2 {
-  font-family: "Grand Hotel", cursive;
+  font-family: 'Grand Hotel', cursive;
 }
 
 .mycard {
@@ -20,20 +20,26 @@ h2 {
   margin: 10px auto;
 }
 
-.input-field input[type="text"]:focus {
+.input-field input[type='text']:focus {
   border-bottom: 1px solid rgb(16, 38, 233) !important;
   box-shadow: 0 1px 0 0 rgb(16, 38, 233) !important;
 }
 
-.input-field input[type="password"]:focus {
+.input-field input[type='password']:focus {
   border-bottom: 1px solid rgb(16, 38, 233) !important;
   box-shadow: 0 1px 0 0 rgb(16, 38, 233) !important;
 }
 
 .gallery {
+  max-width:550px;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
+}
+
+.col1{
+  flex-basis: 33%;
+  min-width: 100px;
 }
 
 .item {
@@ -57,4 +63,55 @@ h2 {
 
 .material-icons:hover {
   cursor: pointer;
+}
+
+.collection-item {
+  width: 100%;
+}
+
+.pr1{
+    flex-basis: 50%;
+}
+
+.pr2{
+    flex-basis: 50%;
+}
+
+.pr21{
+  display: flex;
+  justify-content: space-between;
+  text-align: center;
+}
+
+@media only screen and (max-width:1000px){
+
+  .ll{
+    margin-left: 30px;
+  }
+
+  .ss{
+    margin-left: 30px;
+    margin-top:10px;  
+  }
+}
+
+
+
+@media only screen and (max-width:550px){
+
+  .pr1{
+    text-align: center;
+    align-items: center;
+    flex-basis: 100%;
+  }
+
+  .pr2{
+    text-align: center;
+    align-items: center;
+    flex-basis: 100%;
+  }
+
+  .pr21{
+    justify-content: space-around;
+  }
 }

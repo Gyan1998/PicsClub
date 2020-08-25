@@ -96,13 +96,15 @@ const Profile = () => {
         <div style={{ maxWidth: "550px", margin: "0px auto" }}>
           <div
             style={{
+              maxWidth:"550px",
               display: "flex",
+              flexWrap:"wrap",
               justifyContent: "space-around",
               margin: "18px 0px",
               borderBottom: "1px solid gray",
             }}
           >
-            <div>
+            <div className="pr1">
               <img
                 src={userProfile.user.pic}
                 style={{
@@ -113,23 +115,17 @@ const Profile = () => {
                 alt="Profile pic"
               />
             </div>
-            <div>
+            <div className="pr2">
               <h4>{userProfile.user.name}</h4>
               <h5>{userProfile.user.email}</h5>
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  width: "108%",
-                }}
-              >
-                <h6>{userProfile.posts.length} posts</h6>
-                <h6>{userProfile.user.followers.length} followers</h6>
-                <h6>{userProfile.user.following.length} following</h6>
+              <div className="pr21">
+                <h6>{userProfile.posts.length} <br/>posts</h6>
+                <h6>{userProfile.user.followers.length} <br/>followers</h6>
+                <h6>{userProfile.user.following.length} <br/>following</h6>
               </div>
               {showfollow ? (
                 <button
-                  style={{ margin: "10px" }}
+                  style={{ margin: "10px" ,marginLeft:"0px"}}
                   className="btn waves-effect waves-light #64b5f6 blue lighten-2"
                   onClick={() => FollowUser()}
                 >
@@ -137,7 +133,7 @@ const Profile = () => {
                 </button>
               ) : (
                 <button
-                  style={{ margin: "10px" }}
+                  style={{ margin: "10px" ,marginLeft:"0px"}}
                   className="btn waves-effect waves-light #64b5f6 blue lighten-2"
                   onClick={() => UnFollowUser()}
                 >
@@ -146,20 +142,20 @@ const Profile = () => {
               )}
             </div>
           </div>
-          <div>
             <div className="gallery">
               {userProfile.posts.map((item) => {
                 return (
-                  <img
+                  <div className="col1">
+                  <img style={{width:"100%"}}
                     key={item._id}
                     className="item"
                     src={item.photo}
                     alt={item.title}
                   />
+                  </div>
                 );
               })}
             </div>
-          </div>
         </div>
       ) : (
         <h2>loading...!</h2>

@@ -9,6 +9,7 @@ router.get('/allpost', requireLogin, (req, res) => {
   Post.find()
     .populate('postedBy', '_id name pic')
     .populate('comments.postedBy', '_id name')
+    .sort('-createdAt')
     .then((posts) => {
       res.json({ posts });
     })
@@ -88,7 +89,7 @@ router.put('/unlike', requireLogin, (req, res) => {
 
 router.put('/comment', requireLogin, (req, res) => {
   const comment = {
-    text: req.body.text,
+    typetext: req.body.text,
     postedBy: req.user._id,
   };
   Post.findByIdAndUpdate(
@@ -153,8 +154,9 @@ router.delete('/deletepost/:postId', requireLogin, (req, res) => {
 
 router.get('/getsubpost', requireLogin, (req, res) => {
   Post.find({ postedBy: { $in: req.user.following } })
-    .populate('postedBy', '_id name')
-    .populate('comments.postedBy', '_id name')
+    .populate('postedBy', '_id name pic')
+    .populate('comments.postedBy', '_id name pic')
+    .sort('-createdAt')
     .then((posts) => {
       res.json({ posts });
     })

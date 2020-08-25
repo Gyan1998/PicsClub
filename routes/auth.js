@@ -6,7 +6,19 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { JWT_SECRET } = require('../config/keys');
 const requireLogin = require('../middleware/requireLogin');
+const nodemailer = require('nodemailer');
+const sendgridTransport = require('nodemailer-sendgrid-transport');
 
+//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
+
+const transporter = nodemailer.createTransport(
+  sendgridTransport({
+    auth: {
+      api_key:
+        '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',
+    },
+  })
+);
 router.get('/protected', requireLogin, (req, res) => {
   res.send('hello user');
 });
@@ -14,14 +26,14 @@ router.get('/protected', requireLogin, (req, res) => {
 router.post('/signup', (req, res) => {
   const { name, email, password, pic } = req.body;
   if (!name || !email || !password) {
-    return res.status(422).json({ error: 'complete all the fields' });
+    return res.status(422).json({ error: 'Complete all the fields' });
   }
   User.findOne({ email: email })
     .then((savedUser) => {
       if (savedUser) {
         return res
           .status(422)
-          .json({ error: 'user already exists with that email' });
+          .json({ error: 'User already exists with that email' });
       }
       bcrypt.hash(password, 12).then((hashedpassword) => {
         const user = new User({
@@ -33,8 +45,14 @@ router.post('/signup', (req, res) => {
 
         user
           .save()
-          .then((user) => {
-            res.json({ message: 'saved successfully' });
+          .then((saveduser) => {
+            // transporter.sendMail({
+            //   to: user.email,
+            //   from: 'no-reply@insta.com',
+            //   subject: 'signup success',
+            //   html: '<h1>Welcome to Instagram</h1>',
+            // });
+            res.json({ message: 'Saved successfully' });
           })
           .catch((err) => {
             console.log(err);
@@ -49,7 +67,7 @@ router.post('/signup', (req, res) => {
 router.post('/signin', (req, res) => {
   const { email, password } = req.body;
   if (!email || !password) {
-    return res.status(422).json({ error: 'complete all the fields' });
+    return res.status(422).json({ error: 'Complete all the fields' });
   }
   User.findOne({ email: email }).then((savedUser) => {
     if (!savedUser) {

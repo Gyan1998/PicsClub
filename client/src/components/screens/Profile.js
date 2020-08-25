@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useContext } from "react";
 import { UserContext } from "../../App";
+
 const Profile = () => {
   const [mypics, setPics] = useState([]);
   const { state, dispatch } = useContext(UserContext);
@@ -18,6 +19,7 @@ const Profile = () => {
 
   useEffect(() => {
     if (image) {
+      console.log(image);
       const data = new FormData();
       data.append("file", image);
       data.append("upload_preset", "insta-clone");
@@ -43,7 +45,7 @@ const Profile = () => {
               console.log(result);
               localStorage.setItem(
                 "user",
-                JSON.stringify({ ...state, pic: data.picc })
+                JSON.stringify({ ...state, pic: data.pic })
               );
               dispatch({ type: "UPDATEPIC", payload: result.pic });
             });
@@ -67,31 +69,27 @@ const Profile = () => {
         }}
       >
         <div
-          style={{
+          style={{            
+            maxWidth: "550px",
             display: "flex",
+            flexWrap:"wrap",
             justifyContent: "space-around",
           }}
         >
-          <div>
+          <div className="pr1">
             <img
               src={state ? state.pic : "loading"}
               style={{ width: "160px", height: "160px", borderRadius: "80px" }}
               alt="Profile pic"
             />
           </div>
-          <div>
+          <div className="pr2">
             <h4>{state ? state.name : "loading"}</h4>
             <h5>{state ? state.email : "loading"}</h5>
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                width: "108%",
-              }}
-            >
-              <h6>{mypics.length} posts</h6>
-              <h6>{state ? state.followers.length : "0"} followerss</h6>
-              <h6>{state ? state.following.length : "0"} following</h6>
+            <div className="pr21">
+              <div><h6>{mypics.length} <br/>posts</h6></div>
+              <div><h6>{state ? state.followers.length : "0"} <br/>followers</h6></div>              
+              <div><h6>{state ? state.following.length : "0"} <br/>following</h6></div>
             </div>
           </div>
         </div>
@@ -112,16 +110,18 @@ const Profile = () => {
       <div className="gallery">
         {mypics.map((item) => {
           return (
-            <img
+          <div className="col1">
+            <img style={{width:"100%"}}
               key={item._id}
               className="item"
               src={item.photo}
               alt={item.title}
             />
+            </div>
           );
         })}
+      </div>      
       </div>
-    </div>
   );
 };
 

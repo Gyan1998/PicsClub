@@ -2,7 +2,11 @@ import React, { useContext, useRef, useEffect, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { UserContext } from '../App';
 import M from 'materialize-css';
+
+
+
 const Navbar = () => {
+
   const searchModal = useRef(null);
   const [search, setSearch] = useState('');
   const [userDetails, setUserDetails] = useState([]);
@@ -10,14 +14,22 @@ const Navbar = () => {
   const history = useHistory();
   useEffect(() => {
     M.Modal.init(searchModal.current);
+
   }, []);
+
+  document.addEventListener('DOMContentLoaded', function() {
+    let options=null;
+    var elems = document.querySelectorAll('.sidenav');
+    var instances = M.Sidenav.init(elems, options);
+  });
+
   const renderList = () => {
     if (state) {
       return [
         <li key="1">
           <i
             data-target="modal1"
-            className="large material-icons modal-trigger"
+            className="material-icons modal-trigger ss"
             style={{ color: 'black' }}
           >
             search
@@ -34,10 +46,11 @@ const Navbar = () => {
         </li>,
         <li key="5">
           <button
-            className="btn #c62828 red darken-3"
+            className="btn #c62828 red darken-3 ll" 
             onClick={() => {
               localStorage.clear();
               dispatch({ type: 'CLEAR' });
+              window.location.reload();
               history.push('./signin');
             }}
           >
@@ -73,18 +86,29 @@ const Navbar = () => {
         console.log(result);
         setUserDetails(result.user);
       });
+
   };
 
   return (
-    <nav>
-      <div className="nav-wrapper white">
-        <Link to={state ? '/' : '/signin'} className="brand-logo left">
+    
+    <div>
+      <nav>
+        <div class="nav-wrapper">
+          <Link to={state ? '/' : '/signin'} className="brand-logo left">
           Instagram
-        </Link>
-        <ul id="nav-mobile" className="right">
-          {renderList()}
-        </ul>
-      </div>
+          </Link>
+          <a href="#" data-target="mobile-demo" class="sidenav-trigger" style={{float:"right"}}><i class="material-icons">menu</i></a>
+          <ul class="right hide-on-med-and-down">
+            {renderList()}
+          </ul>
+        </div>
+      </nav>
+
+      <ul class="sidenav" id="mobile-demo">
+        {renderList()}
+      </ul>
+
+
       <div
         id="modal1"
         class="modal"
@@ -103,7 +127,7 @@ const Navbar = () => {
               return (
                 <Link
                   to={
-                    item.posatedBy._id !== state._id
+                    item._id !== state._id
                       ? '/profile/' + item._id
                       : '/profile'
                   }
@@ -126,8 +150,9 @@ const Navbar = () => {
             Close
           </button>
         </div>
+
+    </div>
       </div>
-    </nav>
   );
 };
 

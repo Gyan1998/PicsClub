@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useContext } from "react";
 import { UserContext } from "../../App";
 import { Link } from "react-router-dom";
+
+
 const Home = () => {
   const [data, setData] = useState([]);
   const { state, dispatch } = useContext(UserContext);
@@ -149,7 +151,18 @@ const Home = () => {
                     : "/profile"
                 }
               >
-                {item.postedBy.name}
+                <div style={{display:"flex",alignItems:"center"}}>
+                  <img
+                    src={item.postedBy.pic}
+                    style={{
+                      width: "40px",
+                      height: "40px",
+                      borderRadius: "20px",
+                    }}
+                    alt="pic"
+                  />
+                  {item.postedBy.name}
+                </div>
               </Link>
               {item.postedBy._id == state._id && (
                 <i
@@ -208,7 +221,7 @@ const Home = () => {
                     <span style={{ fontWeight: "500" }}>
                       {record.postedBy.name}
                     </span>{" "}
-                    {record.text}
+                    {record.typetext}
                   </h6>
                 );
               })}
@@ -216,9 +229,12 @@ const Home = () => {
                 onSubmit={(e) => {
                   e.preventDefault();
                   makeComment(e.target[0].value, item._id);
+                  e.target[0].value="";
                 }}
               >
-                <input type="text" placeholder="add a comment" />
+              <div style={{display:"flex",justifyContent:"space-between"}}>
+                <div style={{flexBasis:"80%"}}><input type="text" placeholder="add a comment" /></div><div><button style={{background:"white",borderRadius:"10px"}}><i className="material-icons #1e88e5 blue-text text-darken-1">send</i></button></div>
+              </div>
               </form>
             </div>
           </div>

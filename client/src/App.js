@@ -1,10 +1,11 @@
 import React, { useEffect, createContext, useReducer, useContext } from "react";
-import Navbar from "./components/Navbar.js";
+import Nav from "./components/Nav.js";
 import "./App.css";
 import { BrowserRouter, Route, Switch, useHistory } from "react-router-dom";
 import Home from "./components/screens/Home";
 import Signin from "./components/screens/Signin";
 import Signup from "./components/screens/Signup";
+import Sup from "./components/screens/Sup";
 import Profile from "./components/screens/Profile";
 import CreatePost from "./components/screens/CreatePost";
 import UserProfile from "./components/screens/UserProfile";
@@ -55,7 +56,7 @@ function App() {
   return (
     <UserContext.Provider value={{ state, dispatch }}>
       <BrowserRouter>
-        <Navbar />
+        <Nav />
         <Routing />
       </BrowserRouter>
     </UserContext.Provider>

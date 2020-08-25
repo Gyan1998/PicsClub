@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link, useHistory } from "react-router-dom";
 import M from "materialize-css";
 
+
 const Signup = () => {
   const history = useHistory();
   const [name, setName] = useState("");
@@ -35,7 +36,12 @@ const Signup = () => {
   };
 
   const uploadFields = () => {
-    if (
+    if(!name||!email||!password)
+    {
+      M.toast({ html: "Complete all the fields", classes: "#c62828 red darken-3" });
+      return;
+    }
+    else if (
       !/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
         email
       )
@@ -76,6 +82,7 @@ const Signup = () => {
       uploadFields();
     }
   };
+
   return (
     <div className="mycard">
       <div className="card auth-card input-field">
