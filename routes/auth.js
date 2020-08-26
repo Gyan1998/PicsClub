@@ -26,7 +26,7 @@ router.get('/protected', requireLogin, (req, res) => {
 router.post('/signup', (req, res) => {
   const { name, email, password, pic } = req.body;
   if (!name || !email || !password) {
-    return res.status(422).json({ error: 'Complete all the fields' });
+    return res.status(422).json({ error: 'Add all the fields' });
   }
   User.findOne({ email: email })
     .then((savedUser) => {
@@ -67,7 +67,7 @@ router.post('/signup', (req, res) => {
 router.post('/signin', (req, res) => {
   const { email, password } = req.body;
   if (!email || !password) {
-    return res.status(422).json({ error: 'Complete all the fields' });
+    return res.status(422).json({ error: 'Add all the fields' });
   }
   User.findOne({ email: email }).then((savedUser) => {
     if (!savedUser) {

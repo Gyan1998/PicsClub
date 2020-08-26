@@ -42,6 +42,9 @@ const CreatePost = () => {
   }, [url]);
 
   const postDetails = () => {
+    if(!title || !body || !url)
+      M.toast({ html: "Add all the fields", classes: "#c62828 red darken-3" });
+    else{
     const data = new FormData();
     data.append("file", image);
     data.append("upload_preset", "insta-clone");
@@ -57,6 +60,7 @@ const CreatePost = () => {
       .catch((err) => {
         console.log(err);
       });
+    }
   };
 
   return (

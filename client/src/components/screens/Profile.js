@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useContext } from "react";
 import { UserContext } from "../../App";
+import M from "materialize-css";
 
 const Profile = () => {
   const [mypics, setPics] = useState([]);
@@ -19,7 +20,7 @@ const Profile = () => {
 
   useEffect(() => {
     if (image) {
-      console.log(image);
+      //console.log(image);
       const data = new FormData();
       data.append("file", image);
       data.append("upload_preset", "insta-clone");
@@ -42,7 +43,11 @@ const Profile = () => {
           })
             .then((res) => res.json())
             .then((result) => {
-              console.log(result);
+              //console.log(result);
+             M.toast({
+              html: "Updated pic successfully",
+              classes: "#43a047 green darken-1",
+            });
               localStorage.setItem(
                 "user",
                 JSON.stringify({ ...state, pic: data.pic })

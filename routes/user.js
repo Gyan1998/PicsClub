@@ -88,7 +88,7 @@ router.put('/updatepic', requireLogin, (req, res) => {
     { new: true },
     (err, result) => {
       if (err) {
-        return res.status(422).json({ error: 'pic can not be posted' });
+        return res.status(422).json({ error: 'Pic can not be posted' });
       }
       res.json(result);
     }

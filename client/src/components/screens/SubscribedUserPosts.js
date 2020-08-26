@@ -4,8 +4,10 @@ import { Link } from "react-router-dom";
 
 
 const Home = () => {
+
   const [data, setData] = useState([]);
   const { state, dispatch } = useContext(UserContext);
+  
   useEffect(() => {
     fetch("/getsubpost", {
       headers: {
@@ -121,22 +123,26 @@ const Home = () => {
       });
   };
 
-  // const deleteComment = (postId) => {
-  //   fetch(`/deletecomment/${postId}`, {
-  //     method: "delete",
-  //     headers: {
-  //       Authorization: "Bearer " + localStorage.getItem("jwt"),
-  //     },
-  //   })
-  //     .then((res) => res.json())
-  //     .then((result) => {
-  //       console.log(result);
-  //       const newData = data.filter((item) => {
-  //         return item._id !== result._id;
-  //       });
-  //       setData(newData);
-  //     });
-  // };
+  const deleteComment = (postId,comId) => {
+    fetch(`/deletecomment/${postId}/${comId}`, {
+      method: "delete",
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("jwt"),
+      },
+    })
+      .then((res) => res.json())
+      .then((result) => {
+        console.log(result);
+        const newData = data.map((item) => {
+          if (item._id === result._id) {
+            return result;
+          } else {
+            return item;
+          }
+        });
+        setData(newData);
+      });
+  };
 
   return (
     <div className="home">
@@ -180,9 +186,18 @@ const Home = () => {
               <img src={item.photo} alt="post-pic" />
             </div>
             <div className="card-content">
-              <i className="material-icons" style={{ color: "red" }}>
+
+            <div style={{display:"flex",justifyContent:"space-around"}}>
+             {item.likes.includes(state._id) ? (
+              <i className="material-icons" style={{ color:"red"}}>
                 favorite
               </i>
+              ):(
+              <i className="material-icons" style={{ color:"black"}}>
+                favorite
+              </i>
+              )}
+              <div style={{textAlign:"center"}}>
               {item.likes.includes(state._id) ? (
                 <i
                   className="material-icons"
@@ -203,26 +218,43 @@ const Home = () => {
                 </i>
               )}
               <h6>{item.likes.length} likes</h6>
+              </div>
+              <div style={{textAlign:"center"}}>
+              <i
+                  className="material-icons"
+                >
+                  comment
+                </i>
+                <h6>{item.comments.length} comments</h6>
+                </div>
+                </div>
+
+
+
+
+              
               <h6>{item.title}</h6>
               <p>{item.body}</p>
               {item.comments.map((record) => {
                 return (
-                  <h6 key={record._id}>
-                    {/* {item.postedBy._id == state._id && (
-                      <i
-                        className="material-icons"
-                        onClick={() => {
-                          deleteComment(item._id);
-                        }}
-                      >
-                        delete
-                      </i>
-                    )} */}
-                    <span style={{ fontWeight: "500" }}>
-                      {record.postedBy.name}
-                    </span>{" "}
-                    {record.typetext}
-                  </h6>
+                  <div style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}>
+                    <h6 key={record._id}>
+                      <span style={{ fontWeight: "500" }}>
+                        {record.postedBy.name}
+                      </span>{" "}
+                      {record.typetext}
+                    </h6>
+                    {record.postedBy._id == state._id && (
+                        <i
+                          className="material-icons"
+                          onClick={() => {
+                            deleteComment(item._id,record._id);
+                          }}
+                        >
+                          delete
+                        </i>
+                    )}
+                  </div>
                 );
               })}
               <form
@@ -232,7 +264,7 @@ const Home = () => {
                   e.target[0].value="";
                 }}
               >
-              <div style={{display:"flex",justifyContent:"space-between"}}>
+              <div style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}>
                 <div style={{flexBasis:"80%"}}><input type="text" placeholder="add a comment" /></div><div><button style={{background:"white",borderRadius:"10px"}}><i className="material-icons #1e88e5 blue-text text-darken-1">send</i></button></div>
               </div>
               </form>

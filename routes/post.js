@@ -20,7 +20,7 @@ router.get('/allpost', requireLogin, (req, res) => {
 router.post('/createpost', requireLogin, (req, res) => {
   const { title, body, pic } = req.body;
   if (!title || !body || !pic) {
-    return res.status(422).json({ error: 'please add all the fields' });
+    return res.status(422).json({ error: 'Add all the fields' });
   }
   req.user.password = undefined;
   const post = new Post({
@@ -60,7 +60,10 @@ router.put('/like', requireLogin, (req, res) => {
     {
       new: true,
     }
-  ).exec((err, result) => {
+  )
+  .populate('postedBy', '_id name pic')
+  .populate('comments.postedBy', '_id name')
+  .exec((err, result) => {
     if (err) {
       return res.status(422).json({ error: err });
     } else {
@@ -78,7 +81,10 @@ router.put('/unlike', requireLogin, (req, res) => {
     {
       new: true,
     }
-  ).exec((err, result) => {
+  )
+  .populate('postedBy', '_id name pic')
+  .populate('comments.postedBy', '_id name')
+  .exec((err, result) => {
     if (err) {
       return res.status(422).json({ error: err });
     } else {
@@ -101,8 +107,8 @@ router.put('/comment', requireLogin, (req, res) => {
       new: true,
     }
   )
+    .populate('postedBy', '_id name pic')
     .populate('comments.postedBy', '_id name')
-    .populate('postedBy', '_id name')
     .exec((err, result) => {
       if (err) {
         return res.status(422).json({ error: err });
@@ -132,25 +138,28 @@ router.delete('/deletepost/:postId', requireLogin, (req, res) => {
     });
 });
 
-// router.delete('/deletecomment/:postId', requireLogin, (req, res) => {
-//   Post.findOne({ _id: req.params.postId })
-//     .populate('postedBy', '_id')
-//     .exec((err, post) => {
-//       if (err || !post) {
-//         return res.status(422).json({ error: err });
-//       }
-//       if (post.postedBy._id.toString() === req.user._id.toString()) {
-//         post
-//           .remove()
-//           .then((result) => {
-//             res.json(result);
-//           })
-//           .catch((err) => {
-//             console.log(err);
-//           });
-//       }
-//     });
-// });
+
+router.delete('/deletecomment/:postId/:comId', requireLogin, (req, res) => {
+  Post.findByIdAndUpdate(
+    req.params.postId,
+    {
+      $pull: { comments: {_id:req.params.comId} },
+    },
+    {
+      new:true,
+    }
+  )
+    .populate('postedBy', '_id name pic')
+    .populate('comments.postedBy', '_id name')
+    .exec((err, result) => {
+      if (err) {
+        return res.status(422).json({ error: err });
+      } else {
+        res.json(result);
+      }
+    });
+});
+
 
 router.get('/getsubpost', requireLogin, (req, res) => {
   Post.find({ postedBy: { $in: req.user.following } })

@@ -95,7 +95,7 @@ const Navbar = () => {
       <nav>
         <div class="nav-wrapper">
           <Link to={state ? '/' : '/signin'} className="brand-logo left">
-          Instagram
+          PicsClub
           </Link>
           <a href="#" data-target="mobile-demo" class="sidenav-trigger" style={{float:"right"}}><i class="material-icons">menu</i></a>
           <ul class="right hide-on-med-and-down">
@@ -147,7 +147,7 @@ const Navbar = () => {
             className="modl-close waves-effect waves-green btn-flat"
             onClick={() => setSearch('')}
           >
-            Close
+            Cancel
           </button>
         </div>
 
