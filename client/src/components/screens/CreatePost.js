@@ -42,7 +42,7 @@ const CreatePost = () => {
   }, [url]);
 
   const postDetails = () => {
-    if(!title || !body || !url)
+    if(!title || !body || !image)
       M.toast({ html: "Add all the fields", classes: "#c62828 red darken-3" });
     else{
     const data = new FormData();
