@@ -195,36 +195,21 @@ const Home = () => {
             </div>
             <div className="card-content">
             <div style={{display:"flex",justifyContent:"space-around"}}>
+            <div style={{textAlign:"center"}}>
              {item.likes.includes(state._id) ? (
-              <i className="material-icons" style={{ color:"red"}}>
+              <i className="material-icons" style={{ color:"red"}} onClick={() => {
+                    unlikePost(item._id);
+                  }}>
                 favorite
               </i>
               ):(
-              <i className="material-icons" style={{ color:"black"}}>
+              <i className="material-icons" style={{ color:"black"}} onClick={() => {
+                    likePost(item._id);
+                  }}>
                 favorite
               </i>
               )}
-              <div style={{textAlign:"center"}}>
-              {item.likes.includes(state._id) ? (
-                <i
-                  className="material-icons"
-                  onClick={() => {
-                    unlikePost(item._id);
-                  }}
-                >
-                  thumb_down
-                </i>
-              ) : (
-                <i
-                  className="material-icons"
-                  onClick={() => {
-                    likePost(item._id);
-                  }}
-                >
-                  thumb_up
-                </i>
-              )}
-              <h6>{item.likes.length} likes</h6>
+              <h6>{item.likes.length} {item.likes.length>1?"likes":"like"}</h6>
               </div>
               <div style={{textAlign:"center"}}>
               <i
@@ -232,7 +217,7 @@ const Home = () => {
                 >
                   comment
                 </i>
-                <h6>{item.comments.length} comments</h6>
+                <h6>{item.comments.length} {item.comments.length>1?"comments":"comment"}</h6>
                 </div>
                 </div>
               <h6>{item.title}</h6>
